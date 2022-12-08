@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+function App(){
+  const [data, setData]= useState(null);
+  const navigate = useNavigate();
+  const buttonClick =()=>{
+
+  }
+  const getData= async() => {
+    try {const response = await axios.get(
+     " https://jsonplaceholder.typicode.com/posts"
+    );
+    if (response.status ===200){
+      setData(response.data);
+    }
+    console.log(response.data);
+    }catch (error){
+      console.log(error);
+    }
+  };
+  const Navigatefunc= (id,title) =>{
+    navigate(`/${id}`, {state:{from:'content'}},)
+  }
+  useEffect(()=> {getData();},[]);
+  return(
+    
+    <div className="wall">
+        {data?.map((data)=>(
+          <div class="item" key={data.title} onClick={() => {
+                  Navigatefunc(data.id,data.title);
+                }}><div class="no">{data.id}</div><div class="text">{data.title}</div></div>
+        ))}
     </div>
-  );
+  )
 }
-
 export default App;
